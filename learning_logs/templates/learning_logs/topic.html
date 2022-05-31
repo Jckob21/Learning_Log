@@ -18,4 +18,5 @@ Topic - {{topic}}
     {% endfor %}
 
 </ul>
+<a href="{% url 'learning_logs:new_entry' topic.id %}">Add new entry related to this topic</a>
 {% endblock content %}
