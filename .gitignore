@@ -4,7 +4,6 @@ learning_log/
 learning_logs/__init__.py
 learning_logs/__pycache__/
 learning_logs/apps.py
-learning_logs/forms.py
 learning_logs/migrations/
 learning_logs/templates/learning_logs/new_topic.html
 learning_logs/tests.py
