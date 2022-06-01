@@ -60,3 +60,10 @@ def new_entry(request, topic_id):
     # Display a blank or invalid form
     context = {'form': form, 'topic': topic}
     return render(request, 'learning_logs/new_entry.html', context)
+
+
+def edit_entry(request, entry_id):
+    """Edits an already existing entry"""
+    #topic =
+    #entry =
+    return render(request, 'learning_logs/base.html')
