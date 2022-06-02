@@ -11,7 +11,7 @@ Topics page
   <a href="{% url 'learning_logs:new_topic' %}">Add new topic</a>
   {% for topic in topics %}
     <li><a href="{% url 'learning_logs:topic' topic.id %}">{{topic}}</a></li>
-    {% empty %}}
+    {% empty %}
     <li>No topics added yet</li>
     {% endfor %}
 </ul>
