@@ -23,8 +23,7 @@ def topics(request):
 def topic(request, topic_id):
     """Show topic and related entries"""
     topic = Topic.objects.get(id=topic_id)
-    if topic.user != request.user:
-        return HttpResponseForbidden(request)
+    _check_user_access(topic, request)
     entries = topic.entry_set.order_by('-date_added')
     context = {'topic': topic, 'entries': entries}
     return render(request, 'learning_logs/topic.html', context)
@@ -78,8 +77,7 @@ def edit_entry(request, entry_id):
     entry = Entry.objects.get(id=entry_id)
     topic = entry.topic
 
-    if topic.user != request.user:
-        return HttpResponseForbidden(request)
+    return _check_user_access(topic, request)
 
     if request.method != 'POST':
         # No data submitted - create a blank form, fill with previous value
@@ -92,3 +90,7 @@ def edit_entry(request, entry_id):
             return redirect('learning_logs:topic', topic_id=topic.id)
     context = {'entry': entry, 'topic': topic, 'form': form}
     return render(request, 'learning_logs/edit_entry.html', context)
+
+def _check_user_access(topic, request):
+    if topic.user != request.user:
+        return HttpResponseForbidden(request)
