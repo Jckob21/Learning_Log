@@ -54,6 +54,8 @@ def new_entry(request, topic_id):
     """Add a new entry related to the topic"""
     topic = Topic.objects.get(id=topic_id)
 
+    return _check_user_access(topic, request)
+
     if request.method != 'POST':
         # No data submitted - create a blank form
         form = EntryForm()
@@ -91,6 +93,8 @@ def edit_entry(request, entry_id):
     context = {'entry': entry, 'topic': topic, 'form': form}
     return render(request, 'learning_logs/edit_entry.html', context)
 
+
 def _check_user_access(topic, request):
+    """Returns appropriate response object if user is not authorised"""
     if topic.user != request.user:
         return HttpResponseForbidden(request)
