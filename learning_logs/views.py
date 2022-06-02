@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Topic, Entry
 from .forms import TopicForm, EntryForm
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseForbidden
 
 
 # Create your views here.
@@ -22,6 +23,8 @@ def topics(request):
 def topic(request, topic_id):
     """Show topic and related entries"""
     topic = Topic.objects.get(id=topic_id)
+    if topic.user != request.user:
+        return HttpResponseForbidden(request)
     entries = topic.entry_set.order_by('-date_added')
     context = {'topic': topic, 'entries': entries}
     return render(request, 'learning_logs/topic.html', context)
@@ -72,6 +75,9 @@ def edit_entry(request, entry_id):
     """Edits an already existing entry"""
     entry = Entry.objects.get(id=entry_id)
     topic = entry.topic
+
+    if topic.user != request.user:
+        return HttpResponseForbidden(request)
 
     if request.method != 'POST':
         # No data submitted - create a blank form, fill with previous value
